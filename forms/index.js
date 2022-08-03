@@ -25,34 +25,127 @@ var bootstrapField = function (name, object) {
 };
 
 
-const createPosterForm = function(){
+const createPosterForm = function(media_properties, tags){
     return forms.create ({
         'title' : fields.string({
-            require: true,
+            required: true,
             errorAfterField: true,
-            cssClasses:{
-                label: ['form-label']
-            }
         }),
         'cost': fields.string({
             required:  true,
-            errorAfterField: true
-        }),
-        'description': fields.string({
-            required: true,
             errorAfterField: true,
-            cssClasses:{label: ['form-label']},
             'validators':[validators.integer()]
         }),
         'description': fields.string({
             required: true,
+            errorAfterField: true
+        }),
+        'date': fields.string({
+            required: true,
             errorAfterField: true,
-            cssClasses:{
-                label: ['form-label']
-            }
+            widget: widgets.date()
+        }),
+        'stock': fields.string({
+            required:  true,
+            errorAfterField: true,
+            'validators':[validators.integer()]
+        }),
+        'height': fields.string({
+            required:  true,
+            errorAfterField: true,
+            'validators':[validators.integer()]
+        }),
+        'width': fields.string({
+            required:  true,
+            errorAfterField: true,
+            'validators':[validators.integer()]
+        }),
+        'media_property_id': fields.string({
+            label:"Media_property",
+            required: true,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: media_properties
+        }),
+        'tags': fields.string({
+            required: true,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: tags
+        }),
+        'image_url': fields.string({
+            widget: widgets.hidden()
+        }),
+        'thumbnail_url': fields.string({
+            widget: widgets.hidden()
         })
     })
 }
 
+const createRegistrationForm = () => {
+    return forms.create({
+        'username': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true
+        }),
+        'confirm_password': fields.password({
+            required: true,
+            errorAfterField: true,
+            validators: [validators.matchField('password')]
+        })
+    })
+}
 
-module.exports = {createPosterForm, bootstrapField}
+const createLoginForm = () => {
+    return forms.create({
+        'email': fields.string({
+            required: true,
+            errorAfterField: true
+        }),
+        'password': fields.password({
+            required: true,
+            errorAfterField: true
+        })
+    })
+}
+
+const createSearchForm = function(media_properties, tags) {
+    return forms.create({
+        'title': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'min_cost': fields.string({
+            required: false,
+            errorAfterField: true,
+            'validators': [validators.integer()]
+        }),
+        'max_cost': fields.string({
+            required: false,
+            errorAfterField: true
+        }),
+        'media_property_id': fields.string({
+            label: 'media_property',
+            required: false,
+            errorAfterField: true,
+            widget: widgets.select(),
+            choices: media_properties
+        }),
+        'tags': fields.string({
+            required: false,
+            errorAfterField: true,
+            widget: widgets.multipleSelect(),
+            choices: tags
+        })
+    })
+}
+
+module.exports = {createPosterForm, createSearchForm, createRegistrationForm, createLoginForm, bootstrapField}

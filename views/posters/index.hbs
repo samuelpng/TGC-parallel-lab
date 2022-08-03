@@ -1,22 +1,38 @@
 {{#extends 'base'}}
 
 {{#block 'content'}}
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Title</th>
-            <th>Cost</th>
-            <th>Description</th>
-            <th>Date</th>
-            <th>Stock</th>
-            <th>Height</th>
-            <th>Width</th>
-        </tr>
 
-    </thead>
-    <tbody>
-        {{#each posters}}
+<div class="container">
+    <h3>Posters</h3>
+    <a href="/posters/create" class="btn btn-success">Add Poster</a>  
+
+    <h2>Search</h2>
+    <form method="GET">
+        {{{form}}}
+        {{!-- <input type="text" class="form-control" /> --}}
+        <input type="submit" value="search" class="btn btn-primary mt-3"/>
+    </form>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Title</th>
+                <th>Cost</th>
+                <th>Description</th>
+                <th>Date</th>
+                <th>Stock</th>
+                <th>Height</th>
+                <th>Width</th>
+                <th>Media Property</th>
+                <th>Tags</th>
+                <th>Image</th>
+                <th></th>
+            </tr>
+
+        </thead>
+        <tbody>
+            {{#each posters}}
             <tr>
                 <td>
                     {{this.id}}
@@ -31,21 +47,38 @@
                     {{this.description}}
                 </td>
                 <td>
-                    {{this.date}}
+                    {{moment this.date format="YYYY-MM-DD"}}
                 </td>
-                 <td>
+                <td>
                     {{this.stock}}
                 </td>
-                 <td>
+                <td>
                     {{this.height}}
                 </td>
-                 <td>
+                <td>
                     {{this.width}}
                 </td>
+                <td>
+                    {{this.media_properties.name}}
+                </td>
+                <td>
+                    {{#each this.tags}}
+                        <span class="badge bg-primary">{{this.name}}</span>
+                    {{/each}}
+                </td>
+                <td>
+                    <img src="{{this.thumbnail_url}}" class="img-fluid">
+                </td>
+                <td>
+                    <a href="/posters/{{this.id}}/update" class="btn btn-primary">Update</a>
+                    <a href="/posters/{{this.id}}/delete" class="btn btn-danger">Delete</a>
+                    <a href="/cart/{{this.id}}/add" class="btn btn-success">Add to Cart</a>
+                </td>
             </tr>
-        {{/each}}
-    </tbody>
-</table>
+            {{/each}}
+        </tbody>
+    </table>
+</div>
 {{/block}}
 
 {{/extends}}
